@@ -1,0 +1,48 @@
+:root{
+    --color-neutral-green:#A3C29A;
+    --color-neutral-brown:#72675A;
+    --color-neutral-pink:#E49A92;
+    --color-neutral-white:#F5F5F5;
+    --color-neutral-dark_green:#7FB36DBF;
+     --color-neutral-2dark_green:#4f6b45bf;
+    /* Configurações de Fontes */
+    --font-family: "Irish Grover";
+    --font-headline-1-size: 64px;
+    --font-headline-2-weight: 400;
+
+
+    --font-family-2:"Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+h2{
+    font-family: var(--font-family);
+    color:var(--color-neutral-brown);
+    font-size: var(--font-headline-1-size);
+    font-weight: var(--font-headline-2-weight);
+}
+
+p{
+    font-family: var(--font-family-2);
+    color:var(--color-neutral-white);
+    font-weight:var(--font-headline-2-weight);
+
+}
+
+
+/* início da estilização do card */
+
+
+.participando {
+   background: #c6f7c5;
+}
+
+
+.nao-participando {
+   background: #f8c7c7;
+}
+
+

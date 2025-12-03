@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Página do Educador - Portal Laguna School</title>
+</head>
+<body class="professor">
+<div class="container-principal">
+
+
+    <header class="cabecalho-topo">
+        <h1>Bem-vindo(a) !</h1>
+
+
+        <button class="btn-voltar" alt="">Voltar à página <img src="./src/assets/images/Login.svg"></button>
+
+
+    </header>
+
+
+    <main class="main-content">
+        <!-- foto de perfil-->
+        <div class="avatar">
+            <img src="./src/assets/images/perfil-de-usuario 1 1.svg" alt="" class="icone-usuario"> <!--adiciona alguma foto de perfil do aluno aq se vcs quiserem-->
+        </div>
+
+
+        <!-- fim foto de perfil-->
+
+
+        <!-- texto professor-->
+
+
+        <p class="nome-professor">Professor(a)</p>
+
+
+        <div class="mensagem-professor">
+            <p> Aqui, o conhecimento ganha vida através de quem o compartilha.
+                Este é o seu espaço para planejar, acompanhar e inspirar, com ferramentas que facilitam o ensino e fortalecem a aprendizagem</p>
+        </div>
+
+
+        <!-- Fim texto do professor -->
+
+
+        <!-- caixa de texto para postar -->
+
+
+
+
+
+
+        <form action="/professor" method="POST">
+
+            <label>Matéria:</label>
+            <input type="text" name="materia" required><br><br>
+
+
+            <label>Descrição:</label>
+            <textarea name="descricao" rows="3" cols="30" required></textarea><br><br>
+
+
+            <label>Data:</label>
+            <input type="date" name="data" required><br><br>
+
+
+            <button type="submit">Enviar Atividade</button>
+        </form>
+
+
+
+        <h2>Viva o saber. Inspire-se. Transforme o futuro!</h2>
+
+
+    </main>
+    <!-- Fim caixa de texto -->
+
+
+    <!-- INICIO RODAPÉ-->
+
+
+    <footer class="rodape-frase">
+        <p>Portal Laguna School: Transforme o seu futuro </p>
+        <p class="detalhe-rodape"> Desenvolvido por Mariana Ayoub, João Ulisses e Raphaela Felix ® </p>
+    </footer>
+</div> <!-- FIM RODAPÉ-->
+</body>
+</html>
+
