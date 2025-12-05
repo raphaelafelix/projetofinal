@@ -38,6 +38,7 @@ public class Servidor{
         s.createContext("/participar", Servidor::participar);       // curtir / não curtir
         s.createContext("/style.css", t -> enviarCSS(t, "style.css")); // CSS
         s.createContext("/global.css", t -> enviarCSS(t, "global.css")); // CSS
+        s.createContext("/deletar", Servidor::deletar);
 
 
 
@@ -93,8 +94,38 @@ public class Servidor{
         }
 
         redirecionar(t, "/professor"); // Para ser redirecionado até a rota
+
     }
 
+
+    //Deletar--------------------------------------------------------------------------
+
+    private static void deletar(HttpExchange t) throws IOException {
+
+        if (!t.getRequestMethod().equalsIgnoreCase("POST")) {
+            redirecionar(t, "/aluno");
+            return;
+        }
+
+        String corpo = URLDecoder.decode(ler(t), StandardCharsets.UTF_8);
+        String acao = pega(corpo, "acao"); //Participar ou não
+        String idStr = pega(corpo, "id");
+
+        try {
+            int id = Integer.parseInt(idStr);
+
+            try (PreparedStatement ps = con.prepareStatement(
+                    "DELETE FROM dados WHERE id = ?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        redirecionar(t, "/aluno");
+    }
     // -------------------- CONSUMIDOR (lista todas as lições) --------------------
 
     private static void aluno(HttpExchange t) throws IOException {
@@ -106,7 +137,10 @@ public class Servidor{
         html.append("<title>Aluno</title>");
         html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
         html.append("</head><body>");
-
+        html.append("<header class=\"cabecalho-topo\">");
+        html.append("<h1>Bem-vindo(a) !</h1>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("</header>");
         html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
 
@@ -152,6 +186,13 @@ public class Servidor{
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
                 html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
                 html.append("<button type=\"submit\">Não participar</button>");
+                html.append("</form>");
+
+                //Botão para Deletar (Mover função para a página de envio nas próximas versões)
+                html.append("<form method=\"POST\" action=\"/deletar\">");
+                html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
+                html.append("<button type=\"submit\">Deletar</button>");
                 html.append("</form>");
 
                 html.append("</div>"); // A div é para organizar de forma visualmente agradável os cards
