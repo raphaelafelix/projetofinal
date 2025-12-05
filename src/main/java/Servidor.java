@@ -22,7 +22,7 @@ public class Servidor{
                 "materia TEXT," +
                 "descricao TEXT," +
                 "data TEXT," +
-                "participacao TEXT" + // curtida
+                "participacao TEXT" + // avisa se o aluno participará da atividade ou não
                 ")";
         // Enviando ao Banco de Dados
         con.createStatement().execute(sql);
@@ -33,14 +33,14 @@ public class Servidor{
         // Rotas básicas
         s.createContext("/", t -> enviar(t, "login.html"));   // mostra login
         s.createContext("/login", Servidor::login);           // processa login
-        s.createContext("/professor", Servidor::professor);     // publica e exclue atividades
-        s.createContext("/aluno", Servidor::aluno); // visualiza e envia atividades
-        s.createContext("/atividades", Servidor::atividades);
-        s.createContext("/participar", Servidor::participar);       // curtir / não curtir
+        s.createContext("/professor", Servidor::professor);     // publica atividades
+        s.createContext("/aluno", Servidor::aluno); // visualiza e escolhe se participará delas ou não atividades
+        s.createContext("/atividades", Servidor::atividades); // onde o professor visualiza atividades e pode excluir elas
+        s.createContext("/participar", Servidor::participar);   // participar / não participar
         s.createContext("/style.css", t -> enviarCSS(t, "style.css")); // CSS
         s.createContext("/global.css", t -> enviarCSS(t, "global.css")); // CSS
-        s.createContext("/deletar", Servidor::deletar);
-        s.createContext("/erro", Servidor::erro);
+        s.createContext("/deletar", Servidor::deletar); // onde o professor visualiza atividades e pode excluir elas
+        s.createContext("/erro", Servidor::erro); // página de erro
 
 
 
@@ -48,7 +48,7 @@ public class Servidor{
         System.out.println("Servidor rodando em http://localhost:8082/");
     }
 
-    // -------------------- LOGIN --------------------
+    // -------------------- Autenticando o Login --------------------
 
     private static void login(HttpExchange t) throws IOException {
         if (!t.getRequestMethod().equalsIgnoreCase("POST")){
@@ -56,7 +56,6 @@ public class Servidor{
             return;
         }
 
-        System.out.println("Teste");
 
         String corpo = ler(t);
         corpo = URLDecoder.decode(corpo, StandardCharsets.UTF_8);
@@ -72,10 +71,8 @@ public class Servidor{
         usuario = partes[0].replace("login=", "");
         senha = partes[1].replace("senha=", "");
 
-        System.out.println("Usuario ss  " + usuario + senha);
-
-        if(usuario.equals("Duarte")) {
-            if (senha.equals("123")) {
+        if(usuario.equals("Raphaela")) {
+            if (senha.equals("070109")) {
                 if (corpo.contains("professor")){
                     redirecionar(t, "/professor");
                 } else {
@@ -91,7 +88,7 @@ public class Servidor{
     }
 
 
-    // -------------------- PRODUTOR --------------------
+    // -------------------- Professor --------------------
 
     private static void professor(HttpExchange t) throws IOException {
 
@@ -117,7 +114,7 @@ public class Servidor{
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Para escrever no leitor caso algo dê errado dentro
+            e.printStackTrace(); // Para caso algo dê errado
         }
 
         redirecionar(t, "/professor"); // Para ser redirecionado até a rota
@@ -125,7 +122,7 @@ public class Servidor{
     }
 
 
-    //Deletar--------------------------------------------------------------------------
+    //--------------------------------------- Deletar a Atvidade -----------------------------
 
     private static void deletar(HttpExchange t) throws IOException {
 
@@ -135,7 +132,7 @@ public class Servidor{
         }
 
         String corpo = URLDecoder.decode(ler(t), StandardCharsets.UTF_8);
-        String acao = pega(corpo, "acao"); //Participar ou não
+        String acao = pega(corpo, "acao");
         String idStr = pega(corpo, "id");
 
         try {
@@ -153,7 +150,7 @@ public class Servidor{
 
         redirecionar(t, "/aluno");
     }
-    // -------------------- CONSUMIDOR (lista todas as lições) --------------------
+    // -------------------- Aluno (lista todas as lições) --------------------
 
     private static void aluno(HttpExchange t) throws IOException {
         StringBuilder html = new StringBuilder();
@@ -201,17 +198,17 @@ public class Servidor{
                 html.append("<p><strong>Data:</strong> ").append(data).append("</p>");
                 html.append("<p><strong>Participando:</strong> ").append(participacao).append("</p>");
 
-                // Botão CURTIR
+                // Botão Participar
                 html.append("<form method=\"POST\" action=\"/participar\">"); // O método POST é equivalente ao envio de dados ao banco de dados, ou seja, nesse caso ao clicar no botão o usuário está enviando informações ao BD
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"participar\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"Participando\">");
                 html.append("<button type=\"submit\">Participar</button>");
                 html.append("</form>");
 
-                // Botão NÃO CURTIR
+                // Botão Não Participar
                 html.append("<form method=\"POST\" action=\"/participar\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"Não Participando\">");
                 html.append("<button type=\"submit\">Não participar</button>");
                 html.append("</form>");
 
@@ -252,7 +249,7 @@ public class Servidor{
         html.append("<title>!ERRO!</title>");
         html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
         html.append("</head><body>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>"); // Link para redireciona para a página inicial novamente
         html.append("<h1>Erro :(</h1>");
         html.append("<p>Parece que a tentativa de acesso foi incorreta</p>");
 
@@ -265,7 +262,7 @@ public class Servidor{
         t.getResponseBody().write(b);
         t.close();
     }
-    // ------------ ATIVIDADES PARA O PROFESSOR EXCLUIR
+    // ------------ ATIVIDADES PARA O PROFESSOR EXCLUIR -----------------
 
     private static void atividades(HttpExchange t) throws IOException {
         StringBuilder html = new StringBuilder();
