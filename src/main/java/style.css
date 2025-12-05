@@ -398,3 +398,13 @@ h2{
     font-weight: bold;
 }
 
+/* Mudar cor de Card */
+.participando {
+   background-color: #c6f7c5;
+}
+
+
+.nao-participando {
+   background-color: #f8c7c7;
+}
+

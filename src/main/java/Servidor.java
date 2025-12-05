@@ -297,10 +297,10 @@ public class Servidor{
 
                 // Classe extra para cor do card
                 String classeExtra = "";
-                if ("participacao".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = "participar";
-                } else if ("nao".equals(participacao)) {
-                    classeExtra = "nao-participar";
+                if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
+                    classeExtra = "participando";
+                } else if ("Não participando".equals(participacao)) {
+                    classeExtra = "nao-participando";
                 }
 
                 html.append("<div class=\"card").append(classeExtra).append("\">");
@@ -312,7 +312,7 @@ public class Servidor{
 
 
 
-                //Botão para Deletar (Mover função para a página de envio nas próximas versões)
+                //Botão para Deletar 
                 html.append("<form method=\"POST\" action=\"/deletar\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
                 html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
