@@ -35,6 +35,7 @@ public class Servidor{
         s.createContext("/login", Servidor::login);           // processa login
         s.createContext("/professor", Servidor::professor);     // publica e exclue atividades
         s.createContext("/aluno", Servidor::aluno); // visualiza e envia atividades
+        s.createContext("/atividades", Servidor::atividades);
         s.createContext("/participar", Servidor::participar);       // curtir / não curtir
         s.createContext("/style.css", t -> enviarCSS(t, "style.css")); // CSS
         s.createContext("/global.css", t -> enviarCSS(t, "global.css")); // CSS
@@ -187,6 +188,79 @@ public class Servidor{
                 html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
                 html.append("<button type=\"submit\">Não participar</button>");
                 html.append("</form>");
+
+
+                html.append("</div>"); // A div é para organizar de forma visualmente agradável os cards
+            }
+
+            if (vazio) {
+                html.append("<p>Nenhuma atividade cadastrada ainda.</p>"); // Se estiver vazio, mostre essa mensagem
+            }
+
+        } catch (SQLException e) { // Identifique um erro
+            e.printStackTrace();
+            html.append("<p>Erro ao carregar atividades.</p>");
+        }
+
+        html.append("</body></html>");
+
+        // Enviar HTML gerado
+        byte[] b = html.toString().getBytes(StandardCharsets.UTF_8);
+        t.getResponseHeaders().add("Content-Type", "text/html; charset=UTF-8");
+        t.sendResponseHeaders(200, b.length);
+        t.getResponseBody().write(b);
+        t.close();
+    }
+
+    // ------------ ATIVIDADES PARA O PROFESSOR EXCLUIR
+
+    private static void atividades(HttpExchange t) throws IOException {
+        StringBuilder html = new StringBuilder();
+
+        html.append("<!DOCTYPE html>"); // Montando o esqueleto HTML para mostrar as curtidas
+        html.append("<html><head>");
+        html.append("<meta charset=\"UTF-8\">");
+        html.append("<title>Aluno</title>");
+        html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
+        html.append("</head><body>");
+        html.append("<header class=\"cabecalho-topo\">");
+        html.append("<h1>Bem-vindo(a) !</h1>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("</header>");
+        html.append("<h1>Aluno</h1>");
+        html.append("<p>As atividades disponíveis aparecem aqui:</p>");
+
+
+        try (Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("SELECT id, materia, descricao, data, participacao FROM dados ORDER BY id DESC")) { // para mostrar os dados obtidos
+
+            boolean vazio = true; // Mostre os dados enquanto "vazio" realmente estiver vazio
+
+            while (rs.next()) {
+                vazio = false; // Enquanto não estiver vazio
+
+                int id = rs.getInt("id"); // Extrata o valor da ID e mostre
+                String nome = rs.getString("materia");
+                String desc = rs.getString("descricao");
+                String data = rs.getString("data");
+                String participacao = rs.getString("participacao");
+
+                // Classe extra para cor do card
+                String classeExtra = "";
+                if ("participacao".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
+                    classeExtra = "participar";
+                } else if ("nao".equals(participacao)) {
+                    classeExtra = "nao-participar";
+                }
+
+                html.append("<div class=\"card").append(classeExtra).append("\">");
+                html.append("<p><strong>ID:</strong> ").append(id).append("</p>");
+                html.append("<p><strong>Matéria:</strong> ").append(nome).append("</p>");
+                html.append("<p><strong>Descrição:</strong> ").append(desc).append("</p>");
+                html.append("<p><strong>Data:</strong> ").append(data).append("</p>");
+                html.append("<p><strong>Participando:</strong> ").append(participacao).append("</p>");
+
+
 
                 //Botão para Deletar (Mover função para a página de envio nas próximas versões)
                 html.append("<form method=\"POST\" action=\"/deletar\">");
