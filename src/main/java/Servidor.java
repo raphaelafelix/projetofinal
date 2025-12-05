@@ -187,10 +187,10 @@ public class Servidor{
 
                 // Classe extra para cor do card
                 String classeExtra = "";
-                if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = "participando";
-                } else if ("Não participando".equals(participacao)) {
-                    classeExtra = "nao-participando";
+                if ("participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
+                    classeExtra = " participando";
+                } else if ("nao".equals(participacao)) {
+                    classeExtra = " nao-participando";
                 }
 
                 html.append("<div class=\"card").append(classeExtra).append("\">");
@@ -280,9 +280,9 @@ public class Servidor{
                 // Classe extra para cor do card
                 String classeExtra = "";
                 if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = "participando";
+                    classeExtra = " participando";
                 } else if ("Não participando".equals(participacao)) {
-                    classeExtra = "nao-participando";
+                    classeExtra = " nao-participando";
                 }
 
                 html.append("<div class=\"card").append(classeExtra).append("\">");
@@ -399,9 +399,9 @@ public class Servidor{
                 // Classe extra para cor do card
                 String classeExtra = "";
                 if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = "participando";
+                    classeExtra = "card-participando";
                 } else if ("Não participando".equals(participacao)) {
-                    classeExtra = "nao-participando";
+                    classeExtra = "card-nao-participando";
                 }
 
                 html.append("<div class=\"card").append(classeExtra).append("\">");

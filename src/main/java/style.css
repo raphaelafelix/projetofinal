@@ -399,12 +399,28 @@ h2{
 }
 
 /* Mudar cor de Card */
-.participando {
-   background-color: #c6f7c5;
+.card {
+    background: #A3C29A;
+    border: 3px solid #4f6b45bf;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px auto;
+    width: 300px;
+    text-align: left;
 }
 
+/* VERDE = curtir */
+.card-participando {
+    background-color: #c6f7c5;
+}
 
-.nao-participando {
-   background-color: #f8c7c7;
+/* VERMELHO = não curtir */
+.card-nao-participando {
+    background-color: #f8c7c7;
+}
+
+button {
+    margin-top: 5px;
+    padding: 6px 10px;
 }
 
