@@ -40,6 +40,7 @@ public class Servidor{
         s.createContext("/style.css", t -> enviarCSS(t, "style.css")); // CSS
         s.createContext("/global.css", t -> enviarCSS(t, "global.css")); // CSS
         s.createContext("/deletar", Servidor::deletar);
+        s.createContext("/erro", Servidor::erro);
 
 
 
@@ -50,20 +51,45 @@ public class Servidor{
     // -------------------- LOGIN --------------------
 
     private static void login(HttpExchange t) throws IOException {
-        if (!t.getRequestMethod().equalsIgnoreCase("POST")) {
+        if (!t.getRequestMethod().equalsIgnoreCase("POST")){
             enviar(t, "login.html");
             return;
-        } // Nesse comando, SE o método de requisição não for POST (enviar dados), o usuário será redirecionado para a página de Login
+        }
 
-        String corpo = ler(t); // exemplo: tipo=produtor
-        corpo = URLDecoder.decode(corpo, StandardCharsets.UTF_8);  // Aqui, a URL vai ser decodificada e convertida para leitura humana
+        System.out.println("testsad");
 
-        if (corpo.contains("professor")) {
-            redirecionar(t, "/professor"); // Se o usuário selecionar a opção "Produtor", ele será direcionado para a página "Produtor"
+        String corpo = ler(t);
+        corpo = URLDecoder.decode(corpo, StandardCharsets.UTF_8);
+
+        String query = corpo;
+        String[] partes;
+        partes = query.split("&");
+
+        String usuario;
+        String senha;
+
+
+        usuario = partes[0].replace("login=", "");
+        senha = partes[1].replace("senha=", "");
+
+        System.out.println("Usuario ss  " + usuario + senha);
+
+        if(usuario.equals("Duarte")) {
+            if (senha.equals("123")) {
+                if (corpo.contains("professor")){
+                    redirecionar(t, "/professor");
+                } else {
+                    redirecionar(t, "/aluno");
+                }
+            } else {
+                System.out.println("aaa");
+            }
         } else {
-            redirecionar(t, "/aluno");
-        } // Se o usuário selecionar outra opção, será redirecionado para a página "Consumidor"
+            System.out.println("bbbb");
+        }
+
     }
+
 
     // -------------------- PRODUTOR --------------------
 
@@ -163,9 +189,9 @@ public class Servidor{
                 // Classe extra para cor do card
                 String classeExtra = "";
                 if ("participacao".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = "participar";
+                    classeExtra = "Participando";
                 } else if ("nao".equals(participacao)) {
-                    classeExtra = "nao-participar";
+                    classeExtra = "Não participando";
                 }
 
                 html.append("<div class=\"card").append(classeExtra).append("\">");
