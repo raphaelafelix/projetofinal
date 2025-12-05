@@ -56,7 +56,7 @@ public class Servidor{
             return;
         }
 
-        System.out.println("testsad");
+        System.out.println("Teste");
 
         String corpo = ler(t);
         corpo = URLDecoder.decode(corpo, StandardCharsets.UTF_8);
@@ -82,10 +82,10 @@ public class Servidor{
                     redirecionar(t, "/aluno");
                 }
             } else {
-                System.out.println("aaa");
+                redirecionar(t, "/erro");
             }
         } else {
-            System.out.println("bbbb");
+            redirecionar(t, "/erro");
         }
 
     }
@@ -188,10 +188,10 @@ public class Servidor{
 
                 // Classe extra para cor do card
                 String classeExtra = "";
-                if ("participacao".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = "Participando";
-                } else if ("nao".equals(participacao)) {
-                    classeExtra = "Não participando";
+                if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
+                    classeExtra = "participando";
+                } else if ("Não participando".equals(participacao)) {
+                    classeExtra = "nao-participando";
                 }
 
                 html.append("<div class=\"card").append(classeExtra).append("\">");
@@ -238,6 +238,33 @@ public class Servidor{
         t.close();
     }
 
+
+
+
+    // -------------------- ERRO --------------------
+
+    private static void erro(HttpExchange t) throws IOException {
+        StringBuilder html = new StringBuilder();
+
+        html.append("<!DOCTYPE html>"); // Montando o esqueleto HTML para mostrar as curtidas
+        html.append("<html><head>");
+        html.append("<meta charset=\"UTF-8\">");
+        html.append("<title>!ERRO!</title>");
+        html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
+        html.append("</head><body>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("<h1>Erro :(</h1>");
+        html.append("<p>Parece que a tentativa de acesso foi incorreta</p>");
+
+        html.append("</body></html>");
+
+        // Enviar HTML gerado
+        byte[] b = html.toString().getBytes(StandardCharsets.UTF_8);
+        t.getResponseHeaders().add("Content-Type", "text/html; charset=UTF-8");
+        t.sendResponseHeaders(200, b.length);
+        t.getResponseBody().write(b);
+        t.close();
+    }
     // ------------ ATIVIDADES PARA O PROFESSOR EXCLUIR
 
     private static void atividades(HttpExchange t) throws IOException {
