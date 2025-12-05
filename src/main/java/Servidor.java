@@ -42,6 +42,7 @@ public class Servidor{
         s.createContext("/deletar", Servidor::deletar); // onde o professor visualiza atividades e pode excluir elas
         s.createContext("/erro", Servidor::erro); // página de erro
         s.createContext("/detalhes", Servidor::detalhes);
+        s.createContext("/seta.png", t -> enviarImagem(t, "seta.png")); // IMAGEM
 
 
 
@@ -164,7 +165,7 @@ public class Servidor{
         html.append("</head><body>");
         html.append("<header class=\"cabecalho-topo\">");
         html.append("<h1>Bem-vindo(a) !</h1>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./seta.png\"></a>");
         html.append("</header>");
         html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
@@ -214,9 +215,9 @@ public class Servidor{
                 html.append("</form>");
 
                 // Botão "Ver Mais Informações"
-                html.append("<form method=\"POST\" action=\"/participar\">");
+                html.append("<form method=\"POST\" action=\"/observar\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"Mais detalhes aqui\">");
+                //html.append("<input type=\"hidden\" name=\"acao\" value=\"\">");
                 html.append("<button type=\"submit\"><a href=\"/detalhes\">Ver mais detalhes</a></button>");
                 html.append("</form>");
 
@@ -256,7 +257,7 @@ public class Servidor{
         html.append("</head><body>");
         html.append("<header class=\"cabecalho-topo\">");
         html.append("<h1>Bem-vindo(a) !</h1>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"/seta.png\"></a>");
         html.append("</header>");
         html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
@@ -338,14 +339,6 @@ public class Servidor{
 
 
 
-
-
-
-
-
-
-
-
     // -------------------- ERRO --------------------
 
     private static void erro(HttpExchange t) throws IOException {
@@ -357,7 +350,7 @@ public class Servidor{
         html.append("<title>!ERRO!</title>");
         html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
         html.append("</head><body>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>"); // Link para redireciona para a página inicial novamente
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./seta.png\"></a>"); // Link para redireciona para a página inicial novamente
         html.append("<h1>Erro :(</h1>");
         html.append("<p>Parece que a tentativa de acesso foi incorreta</p>");
 
@@ -383,7 +376,7 @@ public class Servidor{
         html.append("</head><body>");
         html.append("<header class=\"cabecalho-topo\">");
         html.append("<h1>Bem-vindo(a) !</h1>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./src/assets/images/Login.svg\"></a>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./seta.png\"></a>");
         html.append("</header>");
         html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
@@ -479,7 +472,19 @@ public class Servidor{
         redirecionar(t, "/aluno");
     }
 
+    // --------- Enviar Imagem -----
 
+    private static void enviarImagem(HttpExchange t, String arquivo) throws IOException {
+        File f = new File("src/main/java/" + arquivo);
+
+        System.out.println(f);
+
+        byte[] bytes = java.nio.file.Files.readAllBytes(f.toPath());
+        t.getResponseHeaders().add("Content-Type", "image/png");
+        t.sendResponseHeaders(200, bytes.length);
+        t.getResponseBody().write(bytes);
+        t.close();
+    }
 
 
 
@@ -526,3 +531,5 @@ public class Servidor{
         t.close();
     }
 }
+
+
