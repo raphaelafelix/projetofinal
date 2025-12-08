@@ -2,16 +2,16 @@
 
 body{
     background-color: var(--color-neutral-green);
-
+    line-height: 1.5;
 }
+
 
 .container-global{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1317px;
     margin: 0 auto;
-    padding: 100px 54px;
+    padding: 30px 54px;
 }
 
 .titulo{
@@ -241,11 +241,12 @@ h2{
 /* INÍCIO PAGINA DO EDUCADOR */
 
 
-.professor{
+.professor {
     background-color: var(--color-neutral-green);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 
@@ -254,10 +255,9 @@ h2{
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 50px;
+    padding: 120px 50px 50px; /* dá espaço pro cabeçalho fixo */
     box-sizing: border-box;
 }
-
 
 .cabecalho-topo-professor {
     background-color: var(--color-neutral-white);
@@ -265,9 +265,12 @@ h2{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    position: absolute;
-    top: 0px;
+    padding: 15px 40px;
+    position: fixed;  
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
 }
 
 .cabecalho-topo-professor h1 {
@@ -291,10 +294,8 @@ h2{
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 15px;
-    margin-top: 50px;
+    gap: 25px; 
 }
-
 
 .avatar-professor {
     width: 100px;
@@ -307,11 +308,10 @@ h2{
 }
 
 .icone-usuario-professor {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-color: #A9A9A9;
     border-radius: 50%;
-
 }
 
 .nome-professor {
@@ -331,17 +331,17 @@ h2{
 .botoes-acao-professor {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
     width: 100%;
     max-width: 350px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .btn-atividades-professor {
     background-color: var(--color-neutral-dark_green);
     color: var(--color-neutral-white);
     border: none;
-    padding: 20px;
+    padding: 22px;
     border-radius: 10px;
     font-size: 18px;
     font-weight: bold;
@@ -349,18 +349,17 @@ h2{
 
 
 .rodape-frase-professor {
-    position: absolute;
-    bottom: 20px;
+    position: fixed;
+    bottom: 10px;
     text-align: center;
     width: 100%;
 }
 
 .rodape-frase-professor p {
     color: var(--color-neutral-brown);
-    font-size: 16px;
-    margin: 5px 0;
+    font-size: 15px;
+    margin: 3px 0;
 }
-
 .detalhe-rodape-professor {
     font-size: 12px;
     opacity: 0.7; /* deixa meio transparente */

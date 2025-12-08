@@ -187,9 +187,9 @@ public class Servidor{
 
                 // Classe extra para cor do card
                 String classeExtra = "";
-                if ("participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
+                if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
                     classeExtra = " participando";
-                } else if ("nao".equals(participacao)) {
+                } else if ("Não Participando".equals(participacao)) {
                     classeExtra = " nao-participando";
                 }
 
@@ -259,7 +259,6 @@ public class Servidor{
         html.append("<h1>Bem-vindo(a) !</h1>");
         html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"/seta.png\"></a>");
         html.append("</header>");
-        html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
 
 
@@ -295,14 +294,14 @@ public class Servidor{
                 // Botão Participar
                 html.append("<form method=\"POST\" action=\"/participar\">"); // O método POST é equivalente ao envio de dados ao banco de dados, ou seja, nesse caso ao clicar no botão o usuário está enviando informações ao BD
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"Participando\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"participando\">");
                 html.append("<button type=\"submit\">Participar</button>");
                 html.append("</form>");
 
                 // Botão Não Participar
                 html.append("<form method=\"POST\" action=\"/participar\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"Não Participando\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
                 html.append("<button type=\"submit\">Não participar</button>");
                 html.append("</form>");
 
