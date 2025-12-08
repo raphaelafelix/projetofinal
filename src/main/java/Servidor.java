@@ -129,7 +129,7 @@ public class Servidor{
     private static void deletar(HttpExchange t) throws IOException {
 
         if (!t.getRequestMethod().equalsIgnoreCase("POST")) {
-            redirecionar(t, "/aluno");
+            redirecionar(t, "/atividades");
             return;
         }
 
@@ -150,7 +150,7 @@ public class Servidor{
             e.printStackTrace();
         }
 
-        redirecionar(t, "/aluno");
+        redirecionar(t, "/atividades");
     }
     // -------------------- Aluno (lista todas as lições) --------------------
 
@@ -371,14 +371,14 @@ public class Servidor{
         html.append("<!DOCTYPE html>"); // Montando o esqueleto HTML para mostrar as curtidas
         html.append("<html><head>");
         html.append("<meta charset=\"UTF-8\">");
-        html.append("<title>Aluno</title>");
+        html.append("<title>Visualizar Atividades</title>");
         html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
         html.append("</head><body>");
         html.append("<header class=\"cabecalho-topo\">");
         html.append("<h1>Bem-vindo(a) !</h1>");
         html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./seta.png\"></a>");
+        html.append("<a href=\"./professor\" class=\"btn-voltar\">Voltar à área do educador <img src=\"./seta.png\"></a>");
         html.append("</header>");
-        html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
 
 
