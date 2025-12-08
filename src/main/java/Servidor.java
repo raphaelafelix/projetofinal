@@ -43,6 +43,8 @@ public class Servidor{
         s.createContext("/erro", Servidor::erro); // página de erro
         s.createContext("/detalhes", Servidor::detalhes);
         s.createContext("/seta.png", t -> enviarImagem(t, "seta.png")); // IMAGEM
+        s.createContext("/editar", Servidor::editar);
+
 
 
 
@@ -419,6 +421,19 @@ public class Servidor{
                 html.append("<button type=\"submit\">Deletar</button>");
                 html.append("</form>");
 
+
+
+                //Botão para Editar
+                html.append("<form method=\"POST\" action=\"/editar\">");
+                html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
+
+                html.append("<input type=\"text\" name=\"materia\" value=\"").append(nome).append("\">");
+                html.append("<input type=\"text\" name=\"descricao\" value=\"").append(desc).append("\">");
+                html.append("<input type=\"date\" name=\"data\" value=\"").append(data).append("\">");
+                html.append("<button type=\"submit\">Editar</button>");
+                html.append("</form>");
+
+
                 html.append("</div>"); // A div é para organizar de forma visualmente agradável os cards
             }
 
@@ -486,6 +501,74 @@ public class Servidor{
     }
 
 
+    //Editar--------------------------------------------------------------------------
+
+
+    private static void editar(HttpExchange t) throws IOException {
+
+
+        if (!t.getRequestMethod().equalsIgnoreCase("POST")) {
+            redirecionar(t, "/professor");
+            return;
+        }
+
+
+        String corpo = URLDecoder.decode(ler(t), StandardCharsets.UTF_8);
+        String materia = pega(corpo, "materia");
+        String desc = pega(corpo, "descricao");
+        String data = pega(corpo, "data");
+        String idStr = pega(corpo, "id");
+
+
+
+
+        try {
+            int id = Integer.parseInt(idStr);
+
+
+            try (PreparedStatement ps = con.prepareStatement(
+                    "UPDATE dados SET materia = ? WHERE id = ?")) {
+
+
+                ps.setString(1, materia);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+
+
+            }
+
+
+            try (PreparedStatement ps = con.prepareStatement(
+                    "UPDATE dados SET descricao = ? WHERE id = ?")) {
+
+
+                ps.setString(1, desc);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+
+
+            }
+
+
+            try (PreparedStatement ps = con.prepareStatement(
+                    "UPDATE dados SET data = ? WHERE id = ?")) {
+
+
+                ps.setString(1, data);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        redirecionar(t, "/professor");
+    }
 
     // -------------------- Funções auxiliares --------------------
 
