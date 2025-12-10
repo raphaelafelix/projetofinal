@@ -254,7 +254,7 @@ public class Servidor{
         html.append("<!DOCTYPE html>"); // Montando o esqueleto HTML para mostrar as curtidas
         html.append("<html><head>");
         html.append("<meta charset=\"UTF-8\">");
-        html.append("<title>Aluno</title>");
+        html.append("<title>Visualizar mais Informações</title>");
         html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
         html.append("</head><body>");
         html.append("<header class=\"cabecalho-topo\">");

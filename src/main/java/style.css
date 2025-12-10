@@ -112,7 +112,7 @@ body{
     background-color: var(--color-neutral-white);
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 0 40px;
     position: absolute;
