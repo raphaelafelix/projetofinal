@@ -76,7 +76,7 @@ public class Servidor{
         senha = partes[1].replace("senha=", "");
 
         if(usuario.equals("Raphaela")) {
-            if (senha.equals("070109")) {
+            if (senha.equals("719")) {
                 if (corpo.contains("professor")){
                     redirecionar(t, "/professor");
                 } else {
@@ -114,7 +114,7 @@ public class Servidor{
             ps.setString(1, nome);
             ps.setString(2, desc); // type: text
             ps.setString(3, data); // organizando os valores em seus respectivos parâmetros (type: data)
-            ps.setString(4, "nenhuma"); // ainda não enviado
+            ps.setString(4, "Nenhuma"); // ainda não enviado
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -167,7 +167,7 @@ public class Servidor{
         html.append("</head><body>");
         html.append("<header class=\"cabecalho-topo\">");
         html.append("<h1>Bem-vindo(a) !</h1>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"./seta.png\"></a>");
+        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página inicial <img src=\"./seta.png\"></a>");
         html.append("</header>");
         html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
