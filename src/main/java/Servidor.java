@@ -217,7 +217,7 @@ public class Servidor{
                 html.append("</form>");
 
                 // Botão "Ver Mais Informações"
-                html.append("<form method=\"POST\" action=\"/observar\">");
+                html.append("<form method=\"POST\" action=\"/detalhes\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
                 //html.append("<input type=\"hidden\" name=\"acao\" value=\"\">");
                 html.append("<button type=\"submit\"><a href=\"/detalhes\">Ver mais detalhes</a></button>");
@@ -296,14 +296,14 @@ public class Servidor{
                 // Botão Participar
                 html.append("<form method=\"POST\" action=\"/participar\">"); // O método POST é equivalente ao envio de dados ao banco de dados, ou seja, nesse caso ao clicar no botão o usuário está enviando informações ao BD
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"participando\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"Participando\">");
                 html.append("<button type=\"submit\">Participar</button>");
                 html.append("</form>");
 
                 // Botão Não Participar
                 html.append("<form method=\"POST\" action=\"/participar\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"nao\">");
+                html.append("<input type=\"hidden\" name=\"acao\" value=\"Não Participar\">");
                 html.append("<button type=\"submit\">Não participar</button>");
                 html.append("</form>");
 
