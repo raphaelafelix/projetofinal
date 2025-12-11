@@ -227,7 +227,7 @@ h2{
 .rodape-frase p {
     color: var(--color-neutral-brown);
     font-size: 16px;
-    margin: 5px 0;
+    margin: 0;
 }
 
 .detalhe-rodape {
@@ -241,45 +241,39 @@ h2{
 /* INÍCIO PAGINA DO EDUCADOR */
 
 
-.professor {
-    background-color: var(--color-neutral-green);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-}
 
 
-.container-professor {
+
+.container-principal {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    /*width: 100%;*/
     padding: 120px 50px 50px; /* dá espaço pro cabeçalho fixo */
     box-sizing: border-box;
 }
 
-.cabecalho-topo-professor {
+.cabecalho-topo {
     background-color: var(--color-neutral-white);
-    width: 100%;
+    /*width: 100%;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    position: fixed;  
+
     top: 0;
     left: 0;
     right: 0;
     z-index: 10;
 }
 
-.cabecalho-topo-professor h1 {
+.cabecalho-topo h1 {
     color: var(--color-neutral-brown);
     font-size: 30px;
     margin-left: 12px;
 }
 
-.btn-voltar-professor {
+.btn-voltar {
     background-color: var(--color-neutral-dark_green);
     color: var(--color-neutral-white);
     border: none;
@@ -289,7 +283,7 @@ h2{
 }
 
 
-.main-content-professor {
+.main-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -297,8 +291,8 @@ h2{
     gap: 25px; 
 }
 
-.avatar-professor {
-    width: 100px;
+.avatar {
+    /*width: 100px;*/
     height: 100px;
     background-color: var(--color-neutral-white);
     border-radius: 50%;
@@ -307,8 +301,8 @@ h2{
     align-items: center;
 }
 
-.icone-usuario-professor {
-    width: 60px;
+.icone-usuario {
+    /*width: 60px;*/
     height: 60px;
     background-color: #A9A9A9;
     border-radius: 50%;
@@ -322,20 +316,13 @@ h2{
 
 .mensagem-professor p {
     color: var(--color-neutral-brown);
-    max-width: 500px;
+    /*max-width: 500px;*/
     font-size: 16px;
     line-height: 1.5;
 }
 
 
-.botoes-acao-professor {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    width: 100%;
-    max-width: 350px;
-    margin-top: 10px;
-}
+
 
 .btn-atividades-professor {
     background-color: var(--color-neutral-dark_green);
@@ -349,7 +336,6 @@ h2{
 
 
 .rodape-frase-professor {
-    position: fixed;
     bottom: 10px;
     text-align: center;
     width: 100%;
@@ -358,7 +344,7 @@ h2{
 .rodape-frase-professor p {
     color: var(--color-neutral-brown);
     font-size: 15px;
-    margin: 3px 0;
+    margin: 0;
 }
 .detalhe-rodape-professor {
     font-size: 12px;

@@ -216,11 +216,10 @@ public class Servidor{
                 html.append("<button type=\"submit\">Não participar</button>");
                 html.append("</form>");
 
-                // Botão "Ver Mais Informações"
+                //Botão de Ver Mais
                 html.append("<form method=\"POST\" action=\"/detalhes\">");
                 html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                //html.append("<input type=\"hidden\" name=\"acao\" value=\"\">");
-                html.append("<button type=\"submit\"><a href=\"/detalhes\">Ver mais detalhes</a></button>");
+                html.append("<button type=\"submit\">Ver mais detalhes</button>");
                 html.append("</form>");
 
 
@@ -246,97 +245,112 @@ public class Servidor{
         t.close();
     }
 
-    // -------------------- Ver mais Informações --------------------
+    //Ver mais--------------------------------------------------------------------------------------------
 
     private static void detalhes(HttpExchange t) throws IOException {
         StringBuilder html = new StringBuilder();
+        if (!t.getRequestMethod().equalsIgnoreCase("POST")) {
+            redirecionar(t, "/aluno");
+            return;
+        }
 
-        html.append("<!DOCTYPE html>"); // Montando o esqueleto HTML para mostrar as curtidas
+
+
+        String corpo = URLDecoder.decode(ler(t), StandardCharsets.UTF_8);
+        String idStr = pega(corpo, "id");
+
+
+
+        String comando;
+        comando = "SELECT * FROM dados WHERE id=" + idStr;
+
+
+
+        System.out.println("aqui 1");
+
+        html.append("<!DOCTYPE html>");
         html.append("<html><head>");
         html.append("<meta charset=\"UTF-8\">");
-        html.append("<title>Visualizar mais Informações</title>");
-        html.append("<link rel=\"stylesheet\" href=\"/style.css\">");
+        html.append("<link rel=\"stylesheet\" href=\"./style.css\">");
+        html.append("<title>Aluno - Atividades</title>");
         html.append("</head><body>");
-        html.append("<header class=\"cabecalho-topo\">");
-        html.append("<h1>Bem-vindo(a) !</h1>");
-        html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página <img src=\"/seta.png\"></a>");
-        html.append("</header>");
-        html.append("<p>As atividades disponíveis aparecem aqui:</p>");
+
+        try {
+            int id = Integer.parseInt(idStr);
+
+            try (Statement st = con.createStatement();
+
+                 ResultSet rs = st.executeQuery(comando)) {
+                System.out.println("aqui 2");
+
+                boolean vazio = true;
+                System.out.println("aqui 3");
+
+                while (rs.next()) {
+                    vazio = false; // Enquanto não estiver vazio
 
 
-        try (Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery("SELECT id, materia, descricao, data, participacao FROM dados ORDER BY id DESC")) { // para mostrar os dados obtidos
+                    String nome = rs.getString("materia");
+                    String desc = rs.getString("descricao");
+                    String data = rs.getString("data");
+                    String participacao = rs.getString("participacao");
 
-            boolean vazio = true; // Mostre os dados enquanto "vazio" realmente estiver vazio
+                    // Classe extra para cor do card
+                    String classeExtra = "";
+                    if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
+                        classeExtra = " participando";
+                    } else if ("Não Participando".equals(participacao)) {
+                        classeExtra = " nao-participando";
+                    }
 
-            while (rs.next()) {
-                vazio = false; // Enquanto não estiver vazio
+                    html.append("<div class=\"card").append(classeExtra).append("\">");
+                    html.append("<p><strong>ID:</strong> ").append(id).append("</p>");
+                    html.append("<p><strong>Matéria:</strong> ").append(nome).append("</p>");
+                    html.append("<p><strong>Descrição:</strong> ").append(desc).append("</p>");
+                    html.append("<p><strong>Data:</strong> ").append(data).append("</p>");
+                    html.append("<p><strong>Participando:</strong> ").append(participacao).append("</p>");
 
-                int id = rs.getInt("id"); // Extrata o valor da ID e mostre
-                String nome = rs.getString("materia");
-                String desc = rs.getString("descricao");
-                String data = rs.getString("data");
-                String participacao = rs.getString("participacao");
+                    // Botão Participar
+                    html.append("<form method=\"POST\" action=\"/participar\">"); // O método POST é equivalente ao envio de dados ao banco de dados, ou seja, nesse caso ao clicar no botão o usuário está enviando informações ao BD
+                    html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
+                    html.append("<input type=\"hidden\" name=\"acao\" value=\"Participando\">");
+                    html.append("<button type=\"submit\">Participar</button>");
+                    html.append("</form>");
 
-                // Classe extra para cor do card
-                String classeExtra = "";
-                if ("Participando".equals(participacao)) { // Se a postagem for curtida, mostre que o card foi curtido
-                    classeExtra = " participando";
-                } else if ("Não participando".equals(participacao)) {
-                    classeExtra = " nao-participando";
+                    // Botão Não Participar
+                    html.append("<form method=\"POST\" action=\"/participar\">");
+                    html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
+                    html.append("<input type=\"hidden\" name=\"acao\" value=\"Não Participando\">");
+                    html.append("<button type=\"submit\">Não participar</button>");
+                    html.append("</form>");
+
+                    //Botão Ver Menos
+                    html.append("<a href=\"/aluno\" class=\"/btn-voltar\">Ver Menos Detalhes</a>");
+
+
+
+                    html.append("</div>");
                 }
 
-                html.append("<div class=\"card").append(classeExtra).append("\">");
-                html.append("<p><strong>ID:</strong> ").append(id).append("</p>");
-                html.append("<p><strong>Matéria:</strong> ").append(nome).append("</p>");
-                html.append("<p><strong>Descrição:</strong> ").append(desc).append("</p>");
-                html.append("<p><strong>Data:</strong> ").append(data).append("</p>");
-                html.append("<p><strong>Participando:</strong> ").append(participacao).append("</p>");
-
-                // Botão Participar
-                html.append("<form method=\"POST\" action=\"/participar\">"); // O método POST é equivalente ao envio de dados ao banco de dados, ou seja, nesse caso ao clicar no botão o usuário está enviando informações ao BD
-                html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"Participando\">");
-                html.append("<button type=\"submit\">Participar</button>");
-                html.append("</form>");
-
-                // Botão Não Participar
-                html.append("<form method=\"POST\" action=\"/participar\">");
-                html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                html.append("<input type=\"hidden\" name=\"acao\" value=\"Não Participar\">");
-                html.append("<button type=\"submit\">Não participar</button>");
-                html.append("</form>");
-
-
-                // Botão "Ver Mais Informações"
-                html.append("<form method=\"POST\" action=\"/participar\">");
-                html.append("<input type=\"hidden\" name=\"id\" value=\"").append(id).append("\">");
-                //html.append("<input type=\"hidden\" name=\"acao\" value=\"Mais detalhes aqui\">");
-                html.append("<button type=\"submit\"><a href=\"/aluno\">Ver mais detalhes</a></button>");
-                html.append("</form>");
-
-                html.append("</div>"); // A div é para organizar de forma visualmente agradável os cards
+                if (vazio) {
+                    html.append("<p>Nenhuma atividade enviada ainda.</p>");
+                }
             }
 
-            if (vazio) {
-                html.append("<p>Nenhuma atividade cadastrada ainda.</p>"); // Se estiver vazio, mostre essa mensagem
-            }
-
-        } catch (SQLException e) { // Identifique um erro
+        } catch (SQLException e) {
             e.printStackTrace();
             html.append("<p>Erro ao carregar atividades.</p>");
         }
 
-        html.append("</body></html>");
+        html.append("</body><html>");
 
-        // Enviar HTML gerado
+        //Enviar HTML criado
         byte[] b = html.toString().getBytes(StandardCharsets.UTF_8);
-        t.getResponseHeaders().add("Content-Type", "text/html; charset=UTF-8");
+        t.getResponseHeaders().add("Contet-Type", "text/html; charset=UTF-8");
         t.sendResponseHeaders(200, b.length);
         t.getResponseBody().write(b);
         t.close();
     }
-
 
 
 
