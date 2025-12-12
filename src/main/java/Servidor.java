@@ -43,6 +43,7 @@ public class Servidor{
         s.createContext("/erro", Servidor::erro); // página de erro
         s.createContext("/detalhes", Servidor::detalhes);
         s.createContext("/seta.png", t -> enviarImagem(t, "seta.png")); // IMAGEM
+        s.createContext("/user.png", t -> enviarImagem(t, "user.png")); // IMAGEM
         s.createContext("/editar", Servidor::editar);
 
 
@@ -169,7 +170,6 @@ public class Servidor{
         html.append("<h1>Bem-vindo(a) !</h1>");
         html.append("<a href=\"./login.html\" class=\"btn-voltar\">Voltar à página inicial <img src=\"./seta.png\"></a>");
         html.append("</header>");
-        html.append("<h1>Aluno</h1>");
         html.append("<p>As atividades disponíveis aparecem aqui:</p>");
 
 

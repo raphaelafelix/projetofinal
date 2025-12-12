@@ -173,7 +173,7 @@ body{
 .nome-estudante {
     font-size: 24px;
     color: var(--color-neutral-brown);
-    margin: 0;
+    margin: 5px;
 }
 
 .mensagem p {
@@ -227,7 +227,7 @@ h2{
 .rodape-frase p {
     color: var(--color-neutral-brown);
     font-size: 16px;
-    margin: 0;
+    margin: 5px;
 }
 
 .detalhe-rodape {
@@ -245,17 +245,15 @@ h2{
 
 
 .container-principal {
+    background-color: var(--color-neutral-green);
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    /*width: 100%;*/
-    padding: 120px 50px 50px; /* dá espaço pro cabeçalho fixo */
-    box-sizing: border-box;
 }
 
 .cabecalho-topo {
     background-color: var(--color-neutral-white);
-    /*width: 100%;*/
+    width: 99%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -264,7 +262,7 @@ h2{
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 5;
 }
 
 .cabecalho-topo h1 {
@@ -276,7 +274,7 @@ h2{
 .btn-voltar {
     background-color: var(--color-neutral-dark_green);
     color: var(--color-neutral-white);
-    border: none;
+    border: 2.5px solid #E49A92 ;
     padding: 10px 15px;
     border-radius: 20px;
     font-size: 14px;
@@ -291,32 +289,17 @@ h2{
     gap: 25px; 
 }
 
-.avatar {
-    /*width: 100px;*/
-    height: 100px;
-    background-color: var(--color-neutral-white);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.icone-usuario {
-    /*width: 60px;*/
-    height: 60px;
-    background-color: #A9A9A9;
-    border-radius: 50%;
-}
 
 .nome-professor {
     font-size: 24px;
     color: var(--color-neutral-brown);
-    margin: 0;
+    margin: 5;
 }
 
 .mensagem-professor p {
     color: var(--color-neutral-brown);
-    /*max-width: 500px;*/
+    max-width: 500px;
     font-size: 16px;
     line-height: 1.5;
 }
@@ -336,7 +319,8 @@ h2{
 
 
 .rodape-frase-professor {
-    bottom: 10px;
+    position:absolute;
+    bottom: 20px;
     text-align: center;
     width: 100%;
 }
@@ -344,7 +328,7 @@ h2{
 .rodape-frase-professor p {
     color: var(--color-neutral-brown);
     font-size: 15px;
-    margin: 0;
+    margin: 5;
 }
 .detalhe-rodape-professor {
     font-size: 12px;
@@ -352,15 +336,7 @@ h2{
 }
 
 
-.caixa-texto-professor-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-    gap: 15px;
-}
+
 
 
 .caixa-texto-professor {
@@ -369,7 +345,8 @@ h2{
     padding: 15px;
     font-size: 16px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    background-color: var(--color-neutral-2dark_green);
+    border: 3px solid #E49A92;
 }
 
 .btn-enviar-professor {
@@ -377,7 +354,7 @@ h2{
     color: var(--color-neutral-white);
     border: none;
     padding: 20px;
-    margin: 50px;
+    margin: 40px;
     border-radius: 10px;
     font-size: 18px;
     font-weight: bold;
@@ -389,7 +366,7 @@ h2{
     border: 3px solid #4f6b45bf;
     border-radius: 5px;
     padding: 10px;
-    margin: 10px auto;
+    margin: 100px auto;
     width: 300px;
     text-align: left;
 }
